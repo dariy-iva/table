@@ -6,11 +6,11 @@ import store from './store'
 Vue.config.productionTip = false
 Vue.config.devtools = true
 
-import {BootstrapVue, ModalPlugin, ToastPlugin, TooltipPlugin} from 'bootstrap-vue'
+import {BootstrapVue} from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 Vue.use(BootstrapVue)
-Vue.use(ModalPlugin)
-Vue.use(ToastPlugin)
-Vue.use(TooltipPlugin)
 
 new Vue({
   router,
