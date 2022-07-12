@@ -9,6 +9,7 @@ export default {
       state.taskList = payload.taskList;
     },
     addTask(state, payload) {
+      payload.task.id = state.taskList.length + 1;
       state.taskList = [payload.task, ...state.taskList];
     },
     setCurrentTask(state, payload) {

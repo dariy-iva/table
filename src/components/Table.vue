@@ -8,6 +8,8 @@
           placeholder="Поиск"
           size="sm"
       />
+
+      <b-button variant="success" size="sm" @click="handleAddTaskButtonClick">новая запись</b-button>
     </div>
     <b-table bordered hover sticky-header show-empty
              empty-text="Нет данных."
@@ -75,16 +77,20 @@
             button-variant="light"/>
       </b-form-group>
     </div>
+
+    <TaskForm v-if="$store.state.isOpenTaskForm" :isNewTask="isNewTask" />
   </section>
 </template>
 
 <script>
 import FilterHeadTable from "@/components/FilterHeadTable";
+import TaskForm from "@/components/TaskForm";
 
 export default {
   name: "Table",
   components: {
     FilterHeadTable,
+    TaskForm,
   },
   data() {
     return {
@@ -97,7 +103,6 @@ export default {
         {label: 'Код функционала', key: 'functional_code',},
         {label: 'Название функционала', key: 'functional_name',},
         {label: 'Активность', key: 'activity',},
-        {label: 'Описание активности', key: 'activity_description',},
         {label: 'Ответственный', key: 'initiator',},
         {label: 'Активация', key: 'activation',},
         {label: 'Дата последней активации', key: 'activation_date',},
@@ -112,6 +117,7 @@ export default {
       currentPage: 1,
       rowsLengthSelected: 10,
       rowsLengthVariants: [5, 10, 20],
+      isNewTask: true,
     }
   },
 
@@ -139,11 +145,17 @@ export default {
       const lastActivationDate = activationDateList.sort()[activationDateList.length - 1];
       return lastActivationDate.toLocaleDateString();
     },
+
+    handleAddTaskButtonClick() {
+      this.isNewTask = true;
+      this.$store.commit('setIsOpenTaskForm', true);
+    },
     handleEditTaskButtonClick(task) {
       this.$store.commit({
         type: 'setCurrentTask',
         task: task,
       });
+      this.isNewTask = false;
       this.$store.commit('setIsOpenTaskForm', true);
     },
   },
