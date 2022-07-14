@@ -5,23 +5,23 @@
              content-class="" body-class="">
       <h3>Выберите филиалы/регионы:</h3>
       <div>
-        <b-form-group v-for="filial in filialList" :key="filial.value">
+        <b-form-group v-for="filial in filialList" :key="filial.name">
           <div>
-            <input type="checkbox" v-model="selectedFilials" :name="filial.value" :value="filial.value"
+            <input type="checkbox" v-model="selectedFilials" :name="filial.name" :value="filial.name"
                    @click="toggleAllRegions">
-            <p v-b-toggle="`collapse-${filial.value}`">{{ filial.value }}</p>
+            <p v-b-toggle="`collapse-filial-${filial.id}`">{{ filial.name }}</p>
           </div>
-          <b-collapse v-if="filial.regions.length !== 0" :id="`collapse-${filial.value}`" class="mt-2">
+          <b-collapse v-if="filial.regions.length !== 0" :id="`collapse-filial-${filial.id}`" class="mt-2">
             <b-form-checkbox
               v-for="region in filial.regions"
-              :key="region.value"
+              :key="region.name"
               v-model="selectedRegions"
-              :name="region.value"
-              :value="region.value"
-              :disabled="checkDisabledRegion(region.value)"
+              :name="region.name"
+              :value="region.name"
+              :disabled="checkDisabledRegion(region.name)"
               size="sm"
               class="ml-4"
-            >{{ region.value }}
+            >{{ region.name }}
             </b-form-checkbox>
           </b-collapse>
         </b-form-group>
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     filialList() {
-      return [];
+      return this.$store.state.support.filialList;
     }
   },
   watch: {
@@ -81,15 +81,15 @@ export default {
           let selectedRegions = [];
 
           filial.regions.forEach(region => {
-            if (!newValue.includes(region.value) && oldValue.includes(region.value)) {
-              this.selectedFilials = this.selectedFilials.filter(item => item !== filial.value)
-            } else if (newValue.includes(region.value) && !this.selectedFilials.includes(region.value)) {
-              selectedRegions.push(region.value);
+            if (!newValue.includes(region.name) && oldValue.includes(region.name)) {
+              this.selectedFilials = this.selectedFilials.filter(item => item !== filial.name)
+            } else if (newValue.includes(region.name) && !this.selectedFilials.includes(region.name)) {
+              selectedRegions.push(region.name);
             }
           });
 
           if (selectedRegions.length !== 0 && selectedRegions.length === filial.regions.length) {
-            this.selectedFilials.push(filial.value);
+            this.selectedFilials.push(filial.name);
           }
         })
       }
@@ -101,8 +101,8 @@ export default {
     },
     toggleAllRegions(e) {
       const regionList = this.filialList
-        .find(filial => filial.value === e.target.value)
-        .regions.map(region => region.value);
+        .find(filial => filial.name === e.target.value)
+        .regions.map(region => region.name);
 
       if (e.target.checked) {
         this.selectedRegions = [...new Set(this.selectedRegions.concat(regionList))];
@@ -120,8 +120,8 @@ export default {
       const selectedItems = [];
       this.filialList.forEach(filial => {
         filial.regions.forEach(region => {
-          if (this.selectedRegions.includes(region.value) && !this.selectedRegionsForActivation.includes(region.value)) {
-            selectedItems.push({region: region.value, date: this.dateActivationInputConfig.value});
+          if (this.selectedRegions.includes(region.name) && !this.selectedRegionsForActivation.includes(region.name)) {
+            selectedItems.push({region: region.name, date: this.dateActivationInputConfig.value});
           }
         })
       });
@@ -130,10 +130,12 @@ export default {
       this.$refs['select-activations-modal'].hide(true);
     }
   },
-  beforeMount() {
+  beforeCreate() {
     this.$store.dispatch('getFilialList');
-    this.selectedRegions.push(...this.selectedRegionsForActivation);
 
+  },
+  beforeMount() {
+    this.selectedRegions.push(...this.selectedRegionsForActivation);
   }
 }
 </script>

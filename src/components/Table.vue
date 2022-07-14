@@ -1,25 +1,18 @@
 <template>
-  <section>
-    <div>
-      <b-form-input
-          class=""
-          v-model="searchCell"
-          type="search"
-          placeholder="Поиск"
-          size="sm"
-      />
-
-      <b-button variant="success" size="sm" @click="handleAddTaskButtonClick">новая запись</b-button>
-    </div>
+  <section class="table-tasks">
     <b-table bordered hover sticky-header show-empty
              empty-text="Нет данных."
              empty-filtered-text="Не найдено данных по выбранным параметрам. Попробуйте изменить параметры поиска."
              head-variant="light"
              :fields="fields"
-             :items="filteredTasks === null ? taskList : filteredTasks"
+             :items="filteredTaskList.length  ? filteredTaskList : taskList"
              :filter-included-fields="searchOn"
              :filter="searchCell"
+             :current-page="currentPage"
+             :per-page="perPage"
              class=""
+             table-class="123"
+             details-td-class="123"
     >
       <template #head(year)="data">
         <span class="">{{ data.label }}</span>
@@ -55,42 +48,20 @@
         </b-button>
       </template>
     </b-table>
-    <div>
-      <b-pagination
-          v-model="currentPage"
-          :total-rows="filteredTasks === null ? rowsLength : filteredTasks.length"
-          :per-page="rowsLengthSelected"
-          first-number
-          last-number
-          pills
-          class=""
-          page-class=""
-          ellipsis-class=""/>
-      <b-form-group
-          label="Элементов на странице:"
-          label-cols="auto"
-          class="">
-        <b-form-radio-group
-            v-model="rowsLengthSelected"
-            :options="rowsLengthVariants"
-            buttons
-            button-variant="light"/>
-      </b-form-group>
-    </div>
-
-    <TaskForm v-if="$store.state.isOpenTaskForm" :isNewTask="isNewTask" />
   </section>
 </template>
 
 <script>
 import FilterHeadTable from "@/components/FilterHeadTable";
-import TaskForm from "@/components/TaskForm";
 
 export default {
   name: "Table",
+  props: {
+    openTaskForm: Function,
+    searchCell: String,
+  },
   components: {
     FilterHeadTable,
-    TaskForm,
   },
   data() {
     return {
@@ -112,12 +83,6 @@ export default {
         {label: 'Дата завершения', key: 'date_finish',},
         {label: 'Редактирование', key: 'edit',},
       ],
-      searchCell: null,
-      filteredTasks: null,
-      currentPage: 1,
-      rowsLengthSelected: 10,
-      rowsLengthVariants: [5, 10, 20],
-      isNewTask: true,
     }
   },
 
@@ -128,14 +93,21 @@ export default {
     searchOn() {
       return this.fields.map(item => item.key);
     },
-    rowsLength() {
-      return this.taskList.length;
+    currentPage() {
+      return this.$store.state.tasks.currentPage;
+    },
+    perPage() {
+      return this.$store.state.tasks.perPage;
+    },
+    filteredTaskList() {
+      return this.$store.state.tasks.filteredTaskList;
     },
   },
 
   methods: {
     filterTasks(key, values) {
-      this.filteredTasks = this.taskList.filter(item => values.includes(item[key]));
+      const filteredTasks = this.taskList.filter(item => values.includes(item[key]));
+      this.$store.commit('setFilteredTaskList', {taskList: filteredTasks});
     },
     getActivationRegionListText(task) {
       return task.activations.map(item => item.region).join(', ');
@@ -145,18 +117,12 @@ export default {
       const lastActivationDate = activationDateList.sort()[activationDateList.length - 1];
       return lastActivationDate.toLocaleDateString();
     },
-
-    handleAddTaskButtonClick() {
-      this.isNewTask = true;
-      this.$store.commit('setIsOpenTaskForm', true);
-    },
     handleEditTaskButtonClick(task) {
       this.$store.commit({
         type: 'setCurrentTask',
         task: task,
       });
-      this.isNewTask = false;
-      this.$store.commit('setIsOpenTaskForm', true);
+      this.openTaskForm(false);
     },
   },
 
@@ -167,6 +133,14 @@ export default {
 </script>
 
 <style>
+
+.table-tasks {
+  flex-grow: 1;
+}
+
+.table-tasks .b-table-sticky-header {
+  max-height: 1000px;
+}
 
 .table-tasks__cell_content_check-icon {
   display: block;

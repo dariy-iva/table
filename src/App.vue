@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <header></header>
     <router-view/>
+    <footer></footer>
   </div>
 </template>
 
@@ -11,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 </style>

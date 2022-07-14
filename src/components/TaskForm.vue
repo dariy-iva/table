@@ -60,7 +60,7 @@ export default {
   },
   data() {
     return {
-      task: null,
+      currentTask: null,
       formConfig: {
         target: {
           name: 'target',
@@ -261,7 +261,7 @@ export default {
     },
   },
   beforeCreate() {
-    this.task = this.$store.state.tasks.currentTask;
+    this.currentTask = this.$store.state.tasks.currentTask;
   }
 }
 </script>
