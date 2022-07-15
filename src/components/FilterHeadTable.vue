@@ -2,16 +2,16 @@
   <b-dropdown
       variant="dark"
       size="sm"
-      class=""
-      menu-class=""
-      toggle-class=""
+      class="filter-head"
+      menu-class="filter-head__menu"
+      toggle-class="filter-head__button"
       :ref="`dropdown-${keyFilter}`">
-    <b-form-group>
+    <b-form-group class="filter-head__form-group">
       <b-form-checkbox
           v-model="isAllSelected"
           @change="toggleAllValues"
           size="sm"
-          class=""
+          class="filter-head__parent-input"
       >Выбрать все
       </b-form-checkbox>
       <b-form-checkbox-group
@@ -19,12 +19,12 @@
           :options="valueList"
           size="sm"
           stacked
-          class=""/>
+          class="filter-head__child-inputs"/>
     </b-form-group>
 
     <b-dropdown-divider/>
 
-    <div>
+    <div class="filter-head__buttons">
       <b-button
           @click="clearSelectedValues"
           :disabled="selectedValues.length === 0"
@@ -92,6 +92,43 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+.filter-head button.btn.filter-head__button {
+  display: flex;
+  padding: 0;
+  background-color: inherit;
+  border: none;
+}
+
+.filter-head .filter-head__button:focus, .filter-head .filter-head__button:active {
+  box-shadow: none;
+}
+
+.filter-head .filter-head__button::after {
+  color: black;
+}
+
+.filter-head__form-group {
+  padding: 0 10px;
+}
+
+div.custom-checkbox.filter-head__parent-input {
+  padding: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.filter-head__child-inputs div {
+  display: flex;
+  gap: 5px;
+}
+
+.filter-head__buttons {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  padding: 0 10px;
+}
 
 </style>

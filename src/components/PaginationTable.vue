@@ -7,18 +7,18 @@
       first-number
       last-number
       pills
-      class=""
-      page-class=""
-      ellipsis-class=""/>
+      class="pagination-table__pagination"
+      next-class="pagination-table__transition-button"
+      prev-class="pagination-table__transition-button"/>
     <b-form-group
       label="Элементов на странице:"
-      label-cols="auto"
-      class="">
+      class="pagination-table__per-page-container">
       <b-form-radio-group
         v-model="perPage"
         :options="perPageVariants"
         buttons
-        button-variant="light"/>
+        button-variant="light"
+      class="pagination-table__per-page-select"/>
     </b-form-group>
   </section>
 </template>
@@ -58,6 +58,45 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+.pagination-table {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagination-table__pagination {
+  margin-bottom: 0;
+}
+
+.pagination-table__transition-button .page-link {
+  border: none;
+}
+
+.pagination-table__per-page-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-table__per-page-container legend {
+  padding: 0;
+}
+
+.pagination-table__per-page-select label.active {
+  background-color: #ced4da;
+}
+
+.pagination-table__per-page-select label:hover {
+  background-color: #ced4da;
+}
+
+.pagination-table__per-page-select label input[type="radio"] {
+  position: absolute;
+  clip: rect(0,0,0,0);
+  pointer-events: none;
+}
+
 
 </style>

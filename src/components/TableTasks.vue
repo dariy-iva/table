@@ -1,6 +1,6 @@
 <template>
   <section class="table-tasks">
-    <b-table bordered hover sticky-header show-empty
+    <b-table bordered hover show-empty
              empty-text="Нет данных."
              empty-filtered-text="Не найдено данных по выбранным параметрам. Попробуйте изменить параметры поиска."
              head-variant="light"
@@ -11,22 +11,58 @@
              :current-page="currentPage"
              :per-page="perPage"
              class=""
-             table-class="123"
-             details-td-class="123"
+             table-class="table-tasks__table"
+             tbody-class="3"
+             tbody-tr-class="4"
+             thead-class="table-tasks__thead"
+             thead-tr-class="6"
+             details-td-class="2"
     >
+      <template #head(target)="data">
+        <div class="table-tasks__head-cell_content_filter">
+          <span>{{ data.label }}</span>
+          <FilterHeadTable key-filter="target" :onFilter="filterTasks"/>
+        </div>
+      </template>
       <template #head(year)="data">
-        <span class="">{{ data.label }}</span>
+        <div class="table-tasks__head-cell_content_filter">
+          <span>{{ data.label }}</span>
         <FilterHeadTable key-filter="year" :onFilter="filterTasks"/>
+        </div>
+      </template>
+      <template #head(category)="data">
+        <div class="table-tasks__head-cell_content_filter">
+          <span>{{ data.label }}</span>
+          <FilterHeadTable key-filter="category" :onFilter="filterTasks"/>
+        </div>
+      </template>
+      <template #head(technology)="data">
+        <div class="table-tasks__head-cell_content_filter">
+          <span>{{ data.label }}</span>
+          <FilterHeadTable key-filter="technology" :onFilter="filterTasks"/>
+        </div>
+      </template>
+      <template #head(availability)="data">
+        <div class="table-tasks__head-cell_content_filter">
+          <span>{{ data.label }}</span>
+          <FilterHeadTable key-filter="availability" :onFilter="filterTasks"/>
+        </div>
+      </template>
+      <template #head(status)="data">
+        <div class="table-tasks__head-cell_content_filter">
+          <span>{{ data.label }}</span>
+          <FilterHeadTable key-filter="status" :onFilter="filterTasks"/>
+        </div>
       </template>
       <template #cell(availability)="data">
         <span v-if="data.item.availability" class="table-tasks__cell_content_check-icon"/>
       </template>
       <template #cell(activation)="data">
         <span
-            v-b-tooltip.hover="{variant: 'info'}"
-            v-b-tooltip.hover.title=""
-            v-b-tooltip.hover.right
-            class="">
+          v-b-tooltip.hover="{variant: 'info'}"
+          v-b-tooltip.hover.right
+          :title="getActivationRegionListText(data.item)"
+          class="table-tasks__cell_content_activation-regions">
           {{ getActivationRegionListText(data.item) }}
         </span>
       </template>
@@ -41,10 +77,10 @@
       </template>
       <template #cell(edit)="data">
         <b-button
-            @click="handleEditTaskButtonClick(data.item)"
-            variant="warning"
-            size="sm"
-            class="">редактировать
+          @click="handleEditTaskButtonClick(data.item)"
+          variant="warning"
+          size="sm"
+          class="">редактировать
         </b-button>
       </template>
     </b-table>
@@ -55,7 +91,7 @@
 import FilterHeadTable from "@/components/FilterHeadTable";
 
 export default {
-  name: "Table",
+  name: "TableTasks",
   props: {
     openTaskForm: Function,
     searchCell: String,
@@ -138,8 +174,37 @@ export default {
   flex-grow: 1;
 }
 
-.table-tasks .b-table-sticky-header {
-  max-height: 1000px;
+.table-tasks .table-tasks__table {
+  display: block;
+  overflow: auto;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.table-tasks__table .table-tasks__thead {
+  vertical-align: middle;
+}
+
+.table-tasks__head-cell_content_filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.table-tasks__cell_content_activation-regions {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  box-orient: vertical;
+  cursor: default;
 }
 
 .table-tasks__cell_content_check-icon {
