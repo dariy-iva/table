@@ -2,11 +2,19 @@
   <div class="overlay">
     <div class="task-form__modal">
 
-      <h3>{{ isNewTask ? 'Новая запись' : 'Редактирование записи' }}</h3>
+      <h3 :class="`task-form__title ${isNewTask ? 'task-form__title_content_add' : 'task-form__title_content_edit'}`">{{ isNewTask ? 'Новая запись' : 'Редактирование записи' }}</h3>
 
-      <form name="task-form" @submit.prevent="handleSubmitTask" @reset.prevent="handleResetForm">
+      <form name="task-form" @submit.prevent="handleSubmitTask" @reset.prevent="handleResetForm" class="task-form__form">
 
-        <fieldset>
+        <fieldset class="task-form__fieldset task-form__fieldset_content_general"></fieldset>
+
+        <fieldset class="task-form__fieldset task-form__fieldset_content_functional"></fieldset>
+
+        <fieldset class="task-form__fieldset task-form__fieldset_content_additions"></fieldset>
+
+        <fieldset class="task-form__fieldset task-form__fieldset_content_status"></fieldset>
+
+        <fieldset class="task-form__fieldset task-form__fieldset_content_activations">
           <p>Выберите филиал/регион и дату активации</p>
           <SelectActivations :selectedRegionsForActivation="selectedRegionsForActivation"
                              :setSelectedItemsForActivation="setSelectedItemsForActivation"/>
@@ -34,11 +42,11 @@
           </b-table>
         </fieldset>
 
-        <div>
-          <b-button type="reset" variant="outline-danger" size="sm">Закрыть
+        <div class="task-form_buttons">
+          <b-button type="reset" variant="outline-danger" size="sm" class="task-form_button">Закрыть
           </b-button>
           <b-button type="submit" variant="primary" size="sm"
-                    :disabled="checkValidForm">Сохранить
+                    :disabled="checkValidForm" class="task-form_button">Сохранить
           </b-button>
         </div>
       </form>
@@ -289,5 +297,79 @@ export default {
   gap: 30px;
   padding: 15px;
   background-color: white;
+}
+
+.task-form__title {
+  font-size: 25px;
+  line-height: 1.3;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.task-form__title::before {
+  content: '';
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin-right: 10px;
+  background: center / cover no-repeat;
+}
+
+.task-form__title_content_add::before {
+  background-image: url("../assets/images/folder_icon_blue.svg");
+}
+
+.task-form__title_content_edit::before {
+  background-image: url("../assets/images/edit_icon_blue.svg");
+}
+
+.task-form__form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    "general functional"
+    "additions status"
+    "activations activations"
+    "buttons buttons";
+  grid-gap: 10px;
+}
+
+.task-form__fieldset {
+  border: 1px solid var(--blue-color-opacity);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 5px 10px 2px var(--blue-color-opacity);
+}
+
+.task-form__fieldset_content_general {
+  grid-area: general;
+}
+
+.task-form__fieldset_content_functional {
+  grid-area: functional;
+}
+
+.task-form__fieldset_content_additions {
+  grid-area: additions;
+}
+
+.task-form__fieldset_content_status {
+  grid-area: status;
+}
+
+.task-form__fieldset_content_activations {
+  grid-area: activations;
+}
+
+.task-form_buttons {
+  display: flex;
+  justify-content: end;
+  gap: 15px;
+  grid-area: buttons;
+}
+
+.task-form_button {
+  min-width: 100px;
 }
 </style>

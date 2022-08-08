@@ -80,7 +80,7 @@
           @click="handleEditTaskButtonClick(data.item)"
           variant="warning"
           size="sm"
-          class="">редактировать
+          class="table-tasks__button-edit">редактировать
         </b-button>
       </template>
     </b-table>
@@ -213,6 +213,20 @@ export default {
   height: 16px;
   background: url("../assets/images/checked_icon.svg") center no-repeat;
   margin: 0 auto;
+}
+
+.table-tasks__button-edit.btn {
+  display: flex;
+  align-items: center;
+}
+
+.table-tasks__button-edit::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 7px;
+  background: url("../assets/images/edit_icon_black.svg") center / cover no-repeat;
 }
 
 </style>

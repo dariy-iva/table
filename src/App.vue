@@ -17,6 +17,8 @@
   max-width: 1440px;
   margin: 0 auto;
   gap: 20px;
+  --blue-color: rgb(13, 110, 253);
+  --blue-color-opacity: rgba(13, 110, 253, .2);
 }
 
 </style>
