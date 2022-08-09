@@ -18,7 +18,9 @@
   margin: 0 auto;
   gap: 20px;
   --blue-color: rgb(13, 110, 253);
+  --red-color: rgb(255, 0, 0);
   --blue-color-opacity: rgba(13, 110, 253, .2);
+  --red-color-opacity: rgba(255, 0, 0, .2);
 }
 
 </style>

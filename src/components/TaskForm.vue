@@ -2,17 +2,125 @@
   <div class="overlay">
     <div class="task-form__modal">
 
-      <h3 :class="`task-form__title ${isNewTask ? 'task-form__title_content_add' : 'task-form__title_content_edit'}`">{{ isNewTask ? 'Новая запись' : 'Редактирование записи' }}</h3>
+      <h3 :class="`task-form__title ${isNewTask ? 'task-form__title_content_add' : 'task-form__title_content_edit'}`">
+        {{ isNewTask ? 'Новая запись' : 'Редактирование записи' }}</h3>
 
-      <form name="task-form" @submit.prevent="handleSubmitTask" @reset.prevent="handleResetForm" class="task-form__form">
+      <form name="task-form" @submit.prevent="handleSubmitTask" @reset.prevent="handleResetForm"
+            class="task-form__form">
 
-        <fieldset class="task-form__fieldset task-form__fieldset_content_general"></fieldset>
+        <fieldset class="task-form__fieldset task-form__fieldset_content_general">
+          <b-form-select v-model="formConfig.target.value" :options="formConfig.target.options"
+                         :required="formConfig.target.required"
+                         :name="formConfig.target.name" size="sm"
+                         class="task-form__field task-form__field_content_target"/>
+          <b-form-select v-model="formConfig.category.value" :options="formConfig.category.options"
+                         :required="formConfig.category.required" :name="formConfig.category.name" size="sm"
+                         class="task-form__field task-form__field_content_category"/>
+          <b-form-select v-model="formConfig.year.value" :options="formConfig.year.options"
+                         :required="formConfig.year.required" :name="formConfig.year.name" size="sm"
+                         class="task-form__field task-form__field_content_year"/>
+          <b-form-select v-model="formConfig.technology.value" :options="formConfig.technology.options"
+                         :required="formConfig.technology.required" :name="formConfig.technology.name" size="sm"
+                         class="task-form__field task-form__field_content_technology"/>
+        </fieldset>
 
-        <fieldset class="task-form__fieldset task-form__fieldset_content_functional"></fieldset>
+        <fieldset class="task-form__fieldset task-form__fieldset_content_functional">
+          <b-form-checkbox v-model="formConfig.availability.checked" :name="formConfig.availability.name" switch>
+            {{ formConfig.availability.label }}
+          </b-form-checkbox>
+          <b-form-select v-if="formConfig.availability.checked" v-model="formConfig.functional_code.value"
+                         :options="formConfig.functional_code.options"
+                         :required="formConfig.functional_code.required" :name="formConfig.functional_code.name"
+                         size="sm"
+                         class="task-form__field task-form__field_content_functional-code"/>
+          <b-form-select v-if="formConfig.availability.checked" v-model="formConfig.functional_name.value"
+                         :options="formConfig.functional_name.options"
+                         :required="formConfig.functional_name.required" :name="formConfig.functional_name.name"
+                         size="sm"
+                         class="task-form__field task-form__field_content_functional-name"/>
+          <div
+            v-if="!formConfig.availability.checked" class="task-form__field-container">
+            <label :for="formConfig.functional_code.name">{{ formConfig.functional_code.label + ':' }}</label>
+            <b-form-input
+              :id="formConfig.functional_code.name"
+              :name="formConfig.functional_code.name"
+              v-model="formConfig.functional_code.value"
+              :required="formConfig.functional_code.required"
+              min="2"
+              max="10"
+              size="sm"
+              class="task-form__field task-form__field_content_functional-code"
+            />
+          </div>
+          <div
+            v-if="!formConfig.availability.checked" class="task-form__field-container">
+            <label :for="formConfig.functional_name.name">{{ formConfig.functional_name.label + ':' }}</label>
+            <b-form-input
+              :id="formConfig.functional_name.name"
+              :name="formConfig.functional_name.name"
+              v-model="formConfig.functional_name.value"
+              :required="formConfig.functional_name.required"
+              min="5"
+              max="20"
+              size="sm"
+              class="task-form__field task-form__field_content_functional-name"
+            />
+          </div>
+        </fieldset>
 
-        <fieldset class="task-form__fieldset task-form__fieldset_content_additions"></fieldset>
+        <fieldset class="task-form__fieldset task-form__fieldset_content_additions">
+          <b-form-select v-model="formConfig.activity.value" :options="formConfig.activity.options"
+                         :required="formConfig.activity.required" :name="formConfig.activity.name" size="sm"
+                         class="task-form__field task-form__field_content_activity"/>
+          <b-form-select v-model="formConfig.initiator.value" :options="formConfig.initiator.options"
+                         :required="formConfig.initiator.required" :name="formConfig.initiator.name" size="sm"
+                         class="task-form__field task-form__field_content_initiator"/>
+          <div class="task-form__field-container">
+            <label :for="formConfig.comment.name">{{ formConfig.comment.label + ':' }}</label>
+            <b-form-textarea
+              :id="formConfig.comment.name"
+              :name="formConfig.comment.name"
+              v-model="formConfig.comment.value"
+              :required="formConfig.comment.required"
+              rows="3"
+              max-rows="3"
+              no-resize
+              size="sm"
+              class="task-form__field task-form__field_content_comment"
+            />
+          </div>
+        </fieldset>
 
-        <fieldset class="task-form__fieldset task-form__fieldset_content_status"></fieldset>
+        <fieldset class="task-form__fieldset task-form__fieldset_content_status">
+          <div class="task-form__field-container">
+            <label :for="formConfig.date_start.name">{{ formConfig.date_start.label + ':' }}</label>
+            <b-form-datepicker
+              :id="formConfig.date_start.name"
+              :name="formConfig.date_start.name"
+              v-model="formConfig.date_start.value"
+              :required="formConfig.date_start.required"
+              :min="formConfig.date_start.min"
+              :max="formConfig.date_start.max"
+              size="sm"
+              class="task-form__field task-form__field_content_date-start"
+            />
+          </div>
+          <b-form-select v-model="formConfig.status.value" :options="formConfig.status.options"
+                         :required="formConfig.status.required" :name="formConfig.status.name" size="sm"
+                         class="task-form__field task-form__field_content_status"/>
+          <div class="task-form__field-container">
+            <label :for="formConfig.date_finish.name">{{ formConfig.date_finish.label + ':' }}</label>
+            <b-form-datepicker
+              :id="formConfig.date_finish.name"
+              :name="formConfig.date_finish.name"
+              v-model="formConfig.date_finish.value"
+              :required="formConfig.date_finish.required"
+              disabled
+              size="sm"
+              class="task-form__field task-form__field_content_date-start"
+            />
+          </div>
+        </fieldset>
 
         <fieldset class="task-form__fieldset task-form__fieldset_content_activations">
           <p>Выберите филиал/регион и дату активации</p>
@@ -37,7 +145,7 @@
                      :min="formConfig.date_start.min"
                      :max="formConfig.date_start.max" placeholder="Дата активации"
               >
-              <span v-else>{{new Date(data.item.date).toLocaleDateString()}}</span>
+              <span v-else>{{ new Date(data.item.date).toLocaleDateString() }}</span>
             </template>
           </b-table>
         </fieldset>
@@ -340,10 +448,20 @@ export default {
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0px 5px 10px 2px var(--blue-color-opacity);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .task-form__fieldset_content_general {
   grid-area: general;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    "target target"
+    "category category"
+    "year technology";
 }
 
 .task-form__fieldset_content_functional {
@@ -360,6 +478,31 @@ export default {
 
 .task-form__fieldset_content_activations {
   grid-area: activations;
+}
+
+.task-form__field-container {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+}
+
+.task-form__field:invalid {
+  box-shadow: 0px 5px 10px 2px var(--red-color-opacity);
+}
+
+.task-form__field_content_target {
+  grid-area: target;
+}
+
+.task-form__field_content_category {
+  grid-area: category;
+}
+
+.task-form__field_content_year {
+  grid-area: year;
+}
+
+.task-form__field_content_technology {
+  grid-area: technology;
 }
 
 .task-form_buttons {
