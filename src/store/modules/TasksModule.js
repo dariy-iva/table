@@ -15,6 +15,9 @@ export default {
       payload.task.id = state.taskList.length + 1;
       state.taskList = [payload.task, ...state.taskList];
     },
+    deleteTask(state, payload) {
+      state.taskList = state.taskList.filter(task => task.id !== payload.task.id);
+    },
     setFilteredTaskList(state, payload) {
       state.filteredTaskList = payload.taskList;
     },
@@ -42,11 +45,11 @@ export default {
           category: 'Новый сервис',
           technology: '4G',
           availability: true,
-          functional_code: '',
-          functional_name: '',
+          functional_code: '001',
+          functional_name: 'RASANT',
           activity: 'Применение нового функционала',
           activity_description: '',
-          initiator: '',
+          initiator: 'Иванов И.И.',
           activations: [
             {
               region: 'Белгородская область',
@@ -102,10 +105,10 @@ export default {
           technology: '5G',
           availability: false,
           functional_code: '',
-          functional_name: '',
+          functional_name: 'Nokia',
           activity: 'Тестирование нового функционала',
           activity_description: '',
-          initiator: '',
+          initiator: 'Кузнецова К.К.',
           activations: [
             {
               region: 'Санкт-Петербург',
@@ -124,11 +127,11 @@ export default {
           category: 'Другое',
           technology: 'Мульти',
           availability: true,
-          functional_code: '',
-          functional_name: '',
+          functional_code: '005',
+          functional_name: 'Hybradio RDS-Net',
           activity: 'Сверка/доактивация на сети',
           activity_description: '',
-          initiator: '',
+          initiator: 'Дмитриева Д.Д.',
           activations: [],
           comment: '',
           date_start: '2022-04-28',
@@ -142,11 +145,11 @@ export default {
           category: 'Новый сервис',
           technology: '4G',
           availability: true,
-          functional_code: '',
-          functional_name: '',
+          functional_code: '001',
+          functional_name: 'RASANT',
           activity: 'Применение нового функционала',
           activity_description: '',
-          initiator: '',
+          initiator: 'Иванов И.И.',
           activations: [
             {
               region: 'Белгородская область',
@@ -202,10 +205,10 @@ export default {
           technology: '5G',
           availability: false,
           functional_code: '',
-          functional_name: '',
+          functional_name: 'Nokia',
           activity: 'Тестирование нового функционала',
           activity_description: '',
-          initiator: '',
+          initiator: 'Кузнецова К.К.',
           activations: [
             {
               region: 'Санкт-Петербург',
@@ -224,11 +227,11 @@ export default {
           category: 'Другое',
           technology: 'Мульти',
           availability: true,
-          functional_code: '',
-          functional_name: '',
+          functional_code: '005',
+          functional_name: 'Hybradio RDS-Net',
           activity: 'Сверка/доактивация на сети',
           activity_description: '',
-          initiator: '',
+          initiator: 'Дмитриева Д.Д.',
           activations: [],
           comment: '',
           date_start: '2022-04-28',

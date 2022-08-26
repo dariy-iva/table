@@ -73,7 +73,8 @@
                          :required="formConfig.activity.required" :name="formConfig.activity.name" size="sm"
                          class="task-form__field task-form__field_content_activity"/>
           <b-form-select v-model="formConfig.initiator.value" :options="formConfig.initiator.options"
-                         :required="formConfig.initiator.required" :name="formConfig.initiator.name" size="sm"
+                         :required="formConfig.initiator.required" :disabled="!isNewTask"
+                         :name="formConfig.initiator.name" size="sm"
                          class="task-form__field task-form__field_content_initiator"/>
           <div class="task-form__field-container">
             <label :for="formConfig.comment.name">{{ formConfig.comment.label + ':' }}</label>
@@ -101,11 +102,13 @@
               :required="formConfig.date_start.required"
               :min="formConfig.date_start.min"
               :max="formConfig.date_start.max"
+              :disabled="!isNewTask"
               size="sm"
               class="task-form__field task-form__field_content_date-start"
             />
           </div>
           <b-form-select v-model="formConfig.status.value" :options="formConfig.status.options"
+                         :disabled="!isNewTask && formConfig.status.value === 'Завершено'"
                          :required="formConfig.status.required" :name="formConfig.status.name" size="sm"
                          class="task-form__field task-form__field_content_status"/>
           <div class="task-form__field-container">
@@ -193,7 +196,7 @@ export default {
           get options() {
             const options = [];
             options.push({value: null, text: 'Год', disabled: true});
-            for (let i = 0; i < nowYear - 2011; i++) {
+            for (let i = 0; i < nowYear - 2009; i++) {
               options.push({value: 2010 + i, text: 2010 + i});
             }
             return options;
@@ -376,8 +379,34 @@ export default {
       this.$store.commit('setIsOpenTaskForm', false);
     },
   },
+  watch: {
+    'formConfig.functional_code.value'(newValue) {
+      this.formConfig.functional_name.value = this.$store.state.support.functionalList.find(item => item.functional_code === newValue).functional_name;
+    },
+    'formConfig.functional_name.value'(newValue) {
+      this.formConfig.functional_code.value = this.$store.state.support.functionalList.find(item => item.functional_name === newValue).functional_code;
+    },
+    'formConfig.status.value'(newValue) {
+      this.formConfig.date_finish.value = newValue === 'Завершено'
+        ? nowDateInputFormat
+        : null;
+    },
+  },
   beforeCreate() {
     this.currentTask = this.$store.state.tasks.currentTask;
+    this.$store.dispatch('getInitiatorList');
+    this.$store.dispatch('getFunctionalList');
+
+  },
+  beforeMount() {
+    this.$store.state.support.initiatorList.forEach(item => {
+      this.formConfig.initiator.options.push(item);
+    });
+
+    this.$store.state.support.functionalList.forEach(item => {
+      this.formConfig.functional_code.options.push(item.functional_code);
+      this.formConfig.functional_name.options.push(item.functional_name);
+    });
   }
 }
 </script>

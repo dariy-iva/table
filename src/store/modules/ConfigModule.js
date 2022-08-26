@@ -1,11 +1,19 @@
 export default {
   state: () => ({
     filialList: [],
+    initiatorList: [],
+    functionalList: [],
   }),
 
   mutations: {
     setFilialList(state, payload) {
       state.filialList = payload.filialList;
+    },
+    setInitiatorList(state, payload) {
+      state.initiatorList = payload.initiatorList;
+    },
+    setFunctionalList(state, payload) {
+      state.functionalList = payload.functionalList;
     },
   },
 
@@ -150,6 +158,42 @@ export default {
       commit({
         type: 'setFilialList',
         filialList: filialList,
+      })
+    },
+    getInitiatorList({commit}) {
+      const initiatorList = [
+        'Иванов И.И.',
+        'Петрова П.П.',
+        'Сидоров С.С.',
+        'Кузнецова К.К.',
+        'Смирнов А.А.',
+        'Дмитриева Д.Д.',
+      ];
+
+      commit({
+        type: 'setInitiatorList',
+        initiatorList: initiatorList,
+      })
+    },
+    getFunctionalList({commit}) {
+      const functionalList = [
+        {functional_code: '001',
+          functional_name: 'RASANT'},
+        {functional_code: '002',
+          functional_name: 'Cross referencing DAB within RDS'},
+        {functional_code: '003',
+          functional_name: 'RadioText+ /RT+'},
+        {functional_code: '004',
+          functional_name: 'Enhanced early warning system'},
+        {functional_code: '005',
+          functional_name: 'Hybradio RDS-Net'},
+        {functional_code: '006',
+          functional_name: 'RDS-Light'},
+      ];
+
+      commit({
+        type: 'setFunctionalList',
+        functionalList: functionalList,
       })
     },
   },
