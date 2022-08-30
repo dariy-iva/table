@@ -108,7 +108,7 @@
             />
           </div>
           <b-form-select v-model="formConfig.status.value" :options="formConfig.status.options"
-                         :disabled="!isNewTask && formConfig.status.value === 'Завершено'"
+                         :disabled="!isNewTask && $store.state.tasks.currentTask.status === 'Завершено'"
                          :required="formConfig.status.required" :name="formConfig.status.name" size="sm"
                          class="task-form__field task-form__field_content_status"/>
           <div class="task-form__field-container">
@@ -126,7 +126,7 @@
         </fieldset>
 
         <fieldset class="task-form__fieldset task-form__fieldset_content_activations">
-          <p :class="`task-form__text ${formConfig.activations.length === 0 ? 'task-form__text_invalid' : ''}`">Филиалы/регионы и даты активации</p>
+          <p class="task-form__text">Филиалы/регионы и даты активации</p>
           <SelectActivations :selectedRegionsForActivation="selectedRegionsForActivation"
                              :setSelectedItemsForActivation="setSelectedItemsForActivation"/>
           <b-table
@@ -349,7 +349,7 @@ export default {
         }
       });
 
-      return invalidElements.length !== 0 || this.formConfig.activations.length === 0
+      return invalidElements.length !== 0;
     },
 
     selectedRegionsForActivation() {
@@ -385,6 +385,7 @@ export default {
           type: 'updateTask',
           task: this.getInputValues,
         });
+        this.$store.commit('clearCurrentTask');
       }
       this.$store.commit('setIsOpenTaskForm', false);
     },
@@ -554,12 +555,6 @@ export default {
 
 .task-form__text {
   margin: 0;
-  padding: 0 10px;
-  border-radius: 5px;
-}
-
-.task-form__text_invalid {
-  box-shadow: 0px 5px 10px 2px var(--red-color-opacity);
 }
 
 .task-form__delete-button {

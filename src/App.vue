@@ -25,4 +25,8 @@
   --black-color: rgb(0, 0, 0);
 }
 
+.custom-control-label {
+  margin-left: 5px;
+}
+
 </style>

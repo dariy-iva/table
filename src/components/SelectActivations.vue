@@ -1,15 +1,16 @@
 <template>
   <div>
     <b-button variant="primary" size="sm" v-b-modal.select-activations-modal>Выбрать</b-button>
-    <b-modal id="select-activations-modal" ref="select-activations-modal" hide-header hide-footer centered
-             content-class="" body-class="">
-      <h3>Выберите филиалы/регионы:</h3>
+    <b-modal id="select-activations-modal" ref="select-activations-modal" hide-header hide-footer centered scrollable
+             content-class="" body-class="activations__modal">
       <div>
+        <h6>Выберите филиалы/регионы:</h6>
+
         <b-form-group v-for="filial in filialList" :key="filial.name">
           <div>
             <input type="checkbox" v-model="selectedFilials" :name="filial.name" :value="filial.name"
                    @click="toggleAllRegions">
-            <p v-b-toggle="`collapse-filial-${filial.id}`">{{ filial.name }}</p>
+            <span v-b-toggle="`collapse-filial-${filial.id}`" class="custom-control-label">{{ filial.name }}</span>
           </div>
           <b-collapse v-if="filial.regions.length !== 0" :id="`collapse-filial-${filial.id}`" class="mt-2">
             <b-form-checkbox
@@ -27,17 +28,20 @@
         </b-form-group>
       </div>
 
-      <h3>Выберите дату активации:</h3>
-      <b-form-datepicker v-model="dateActivationInputConfig.value" :name="dateActivationInputConfig.name"
-                         :min="dateActivationInputConfig.min" :max="dateActivationInputConfig.max"
-                         :placeholder="dateActivationInputConfig.label" required size="sm"/>
       <div>
+        <h6>Выберите дату активации:</h6>
+        <b-form-datepicker v-model="dateActivationInputConfig.value" :name="dateActivationInputConfig.name"
+                           :min="dateActivationInputConfig.min" :max="dateActivationInputConfig.max"
+                           :placeholder="dateActivationInputConfig.label" required size="sm"/>
+      </div>
+
+      <div class="activations__buttons">
         <b-button variant="outline-danger" size="sm"
-                  :disabled="selectedRegions.length === 0 && dateActivationInputConfig.value === ''"
+                  :disabled="checkValidityForm"
                   @click="clearActivations">Очистить
         </b-button>
         <b-button variant="primary" size="sm"
-                  :disabled="selectedRegions.length === 0 && dateActivationInputConfig.value === ''"
+                  :disabled="checkValidityForm"
                   @click="setSelectedRegions">Применить
         </b-button>
       </div>
@@ -63,14 +67,17 @@ export default {
         label: 'Дата активации',
         min: '2010-01-01',
         max: nowDateInputFormat,
-        value: '',
+        value: null,
       },
     }
   },
   computed: {
     filialList() {
       return this.$store.state.support.filialList;
-    }
+    },
+    checkValidityForm() {
+      return this.selectedRegions.length === 0 || this.selectedRegions.length === this.selectedRegionsForActivation.length || !this.dateActivationInputConfig.value;
+    },
   },
   watch: {
     selectedRegions(newValue, oldValue) {
@@ -140,6 +147,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+.activations__modal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activations__buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
 
 </style>

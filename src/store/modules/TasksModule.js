@@ -21,6 +21,7 @@ export default {
     },
     deleteTask(state, payload) {
       state.taskList = state.taskList.filter(task => task.id !== payload.task.id);
+      state.filteredTaskList = state.filteredTaskList.filter(task => task.id !== payload.task.id);
     },
     setFilteredTaskList(state, payload) {
       state.filteredTaskList = payload.taskList;

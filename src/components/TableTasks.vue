@@ -56,7 +56,7 @@
       </template>
       <template #cell(delete)="data">
         <button type="button" @click="handleDeleteTaskButtonClick(data.item)"
-                class="table-tasks__cell_content_delete-button">x
+                class="table-tasks__cell_content_delete-button" title="Удаление записи">x
         </button>
       </template>
       <template #cell(availability)="data">
@@ -92,7 +92,7 @@
     <b-modal id="modal-delete-task" title="Удалить запись?" centered hide-header-close header-bg-variant="primary"
              no-close-on-backdrop no-close-on-esc>
       <template #default>
-        Восстановление удалённой записи невозможно.
+        Восстановление удалённой записи будет невозможно.
       </template>
       <template #modal-footer>
         <b-button @click="handleCloseDeleteTaskModal" variant="outline-danger">Отмена</b-button>
@@ -162,7 +162,7 @@ export default {
       const filteredTasks = this.taskList.filter(item => values.includes(item[key]));
       this.$store.commit('setFilteredTaskList', {taskList: filteredTasks});
     },
-    
+
     getActivationRegionListText(task) {
       return task.activations.map(item => item.region).join(', ');
     },
