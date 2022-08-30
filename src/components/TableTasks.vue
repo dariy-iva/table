@@ -27,7 +27,7 @@
       <template #head(year)="data">
         <div class="table-tasks__head-cell_content_filter">
           <span>{{ data.label }}</span>
-        <FilterHeadTable key-filter="year" :onFilter="filterTasks"/>
+          <FilterHeadTable key-filter="year" :onFilter="filterTasks"/>
         </div>
       </template>
       <template #head(category)="data">
@@ -55,7 +55,8 @@
         </div>
       </template>
       <template #cell(delete)="data">
-        <button type="button" @click="handleDeleteTaskButtonClick(data.item)" class="table-tasks__cell_content_delete-button">x
+        <button type="button" @click="handleDeleteTaskButtonClick(data.item)"
+                class="table-tasks__cell_content_delete-button">x
         </button>
       </template>
       <template #cell(availability)="data">
@@ -88,6 +89,17 @@
         </b-button>
       </template>
     </b-table>
+    <b-modal id="modal-delete-task" title="Удалить запись?" centered hide-header-close header-bg-variant="primary"
+             no-close-on-backdrop no-close-on-esc>
+      <template #default>
+        Восстановление удалённой записи невозможно.
+      </template>
+      <template #modal-footer>
+        <b-button @click="handleCloseDeleteTaskModal" variant="outline-danger">Отмена</b-button>
+        <b-button @click="handleDeleteTask" variant="outline-primary">Удалить</b-button>
+      </template>
+
+    </b-modal>
   </section>
 </template>
 
@@ -150,14 +162,17 @@ export default {
       const filteredTasks = this.taskList.filter(item => values.includes(item[key]));
       this.$store.commit('setFilteredTaskList', {taskList: filteredTasks});
     },
+    
     getActivationRegionListText(task) {
       return task.activations.map(item => item.region).join(', ');
     },
+
     getLastActivationDate(task) {
       const activationDateList = task.activations.map(item => new Date(item.date));
       const lastActivationDate = activationDateList.sort()[activationDateList.length - 1];
       return lastActivationDate.toLocaleDateString();
     },
+
     handleEditTaskButtonClick(task) {
       this.$store.commit({
         type: 'setCurrentTask',
@@ -165,12 +180,28 @@ export default {
       });
       this.openTaskForm(false);
     },
+
     handleDeleteTaskButtonClick(task) {
       this.$store.commit({
-        type: 'deleteTask',
+        type: 'setCurrentTask',
         task: task,
       });
+      this.$bvModal.show('modal-delete-task')
+
     },
+
+    handleDeleteTask() {
+      this.$store.commit({
+        type: 'deleteTask',
+        task: this.$store.state.tasks.currentTask,
+      });
+      this.handleCloseDeleteTaskModal();
+    },
+
+    handleCloseDeleteTaskModal() {
+      this.$store.commit('clearCurrentTask');
+      this.$bvModal.hide('modal-delete-task');
+    }
   },
 
   beforeMount() {
