@@ -126,16 +126,16 @@
         </fieldset>
 
         <fieldset class="task-form__fieldset task-form__fieldset_content_activations">
-          <p>Выберите филиал/регион и дату активации</p>
+          <p :class="`task-form__text ${formConfig.activations.length === 0 ? 'task-form__text_invalid' : ''}`">Филиалы/регионы и даты активации</p>
           <SelectActivations :selectedRegionsForActivation="selectedRegionsForActivation"
                              :setSelectedItemsForActivation="setSelectedItemsForActivation"/>
           <b-table
             :items="formConfig.activations"
             :fields="fieldsActivationsTable"
-            show-empty bordered fixed hover sticky-header no-border-collapse head-variant="light"
+            show-empty bordered fixed hover sticky-header head-variant="light"
             empty-text="Нет выбранных филиалов/регионов для активации">
             <template #cell(delete)="data">
-              <button v-if="getStatusActivation(data.item)" type="button" @click="handleDeleteActivation(data.item)">x
+              <button v-if="getStatusActivation(data.item)" type="button" @click="handleDeleteActivation(data.item)" class="task-form__delete-button">x
               </button>
             </template>
             <template #cell(region)="data">
@@ -234,7 +234,7 @@ export default {
           name: 'availability',
           label: 'Наличие в системе',
           checked: this.isNewTask ? true : this.currentTask.availability,
-          required: true,
+          required: false,
         },
         functional_code: {
           name: 'functional_code',
@@ -339,9 +339,11 @@ export default {
         id: this.formConfig.id.value,
       }
     },
+
     checkValidForm() {
       let invalidElements = [];
-      Object.values(this.formConfig).forEach(item => {
+
+      Object.values(this.formConfig).filter(item => item.required).forEach(item => {
         if (item.required && !item.value) {
           invalidElements.push(item);
         }
@@ -349,36 +351,50 @@ export default {
 
       return invalidElements.length !== 0 || this.formConfig.activations.length === 0
     },
+
     selectedRegionsForActivation() {
       return this.formConfig.activations.map(item => item.region);
     },
   },
+
   methods: {
     setSelectedItemsForActivation(items) {
       this.formConfig.activations.unshift(...items);
     },
+
     getStatusActivation(activation) {
       return this.isNewTask
         ? true
         : !this.$store.state.tasks.currentTask.activations
           .map(item => item.region).includes(activation.region);
     },
+
     handleDeleteActivation(activation) {
       this.formConfig.activations = this.formConfig.activations.filter(item => item.region !== activation.region)
     },
+
     handleSubmitTask() {
       if (this.isNewTask) {
         this.$store.commit({
           type: 'addTask',
           task: this.getInputValues,
-        })
+        });
       }
+      else {
+        this.$store.commit({
+          type: 'updateTask',
+          task: this.getInputValues,
+        });
+      }
+      this.$store.commit('setIsOpenTaskForm', false);
     },
+
     handleResetForm() {
       !this.isNewTask && this.$store.commit('clearCurrentTask');
       this.$store.commit('setIsOpenTaskForm', false);
     },
   },
+
   watch: {
     'formConfig.functional_code.value'(newValue) {
       this.formConfig.functional_name.value = this.$store.state.support.functionalList.find(item => item.functional_code === newValue).functional_name;
@@ -429,6 +445,7 @@ export default {
 
 .task-form__modal {
   width: 90vw;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -507,6 +524,7 @@ export default {
 
 .task-form__fieldset_content_activations {
   grid-area: activations;
+  align-items: center;
 }
 
 .task-form__field-container {
@@ -532,6 +550,29 @@ export default {
 
 .task-form__field_content_technology {
   grid-area: technology;
+}
+
+.task-form__text {
+  margin: 0;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+
+.task-form__text_invalid {
+  box-shadow: 0px 5px 10px 2px var(--red-color-opacity);
+}
+
+.task-form__delete-button {
+  border: none;
+  background: none;
+  font-weight: 700;
+  color: var(--gray-color);
+  transition: all .3s;
+}
+
+.task-form__delete-button:hover {
+  color: var(--red-color);
+  transform: scale(1.4);
 }
 
 .task-form_buttons {

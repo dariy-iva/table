@@ -54,6 +54,10 @@
           <FilterHeadTable key-filter="status" :onFilter="filterTasks"/>
         </div>
       </template>
+      <template #cell(delete)="data">
+        <button type="button" @click="handleDeleteTaskButtonClick(data.item)" class="table-tasks__cell_content_delete-button">x
+        </button>
+      </template>
       <template #cell(availability)="data">
         <span v-if="data.item.availability" class="table-tasks__cell_content_check-icon"/>
       </template>
@@ -102,6 +106,7 @@ export default {
   data() {
     return {
       fields: [
+        {label: '', key: 'delete',},
         {label: 'Назначение', key: 'target',},
         {label: 'Год', key: 'year',},
         {label: 'Категория', key: 'category',},
@@ -160,6 +165,12 @@ export default {
       });
       this.openTaskForm(false);
     },
+    handleDeleteTaskButtonClick(task) {
+      this.$store.commit({
+        type: 'deleteTask',
+        task: task,
+      });
+    },
   },
 
   beforeMount() {
@@ -192,6 +203,19 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 5px;
+}
+
+.table-tasks__cell_content_delete-button {
+  border: none;
+  background: none;
+  font-weight: 700;
+  color: var(--gray-color);
+  transition: all .3s;
+}
+
+.table-tasks__cell_content_delete-button:hover {
+  color: var(--red-color);
+  transform: scale(1.4);
 }
 
 .table-tasks__cell_content_activation-regions {
