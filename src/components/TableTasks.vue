@@ -78,7 +78,7 @@
         {{ data.item.date_start ? new Date(data.item.date_start).toLocaleDateString() : '' }}
       </template>
       <template #cell(date_finish)="data">
-        {{ data.item.date_finish ? new Date(data.item.date_start).toLocaleDateString() : '' }}
+        {{ data.item.date_finish ? new Date(data.item.date_finish).toLocaleDateString() : '' }}
       </template>
       <template #cell(edit)="data">
         <b-button

@@ -76,7 +76,9 @@ export default {
       return this.$store.state.support.filialList;
     },
     checkValidityForm() {
-      return this.selectedRegions.length === 0 || this.selectedRegions.length === this.selectedRegionsForActivation.length || !this.dateActivationInputConfig.value;
+      return this.selectedRegions.length === 0
+        || this.selectedRegions.length === this.selectedRegionsForActivation.length
+        || !this.dateActivationInputConfig.value;
     },
   },
   watch: {
