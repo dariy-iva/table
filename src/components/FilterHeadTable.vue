@@ -4,7 +4,7 @@
       size="sm"
       class="filter-head"
       menu-class="filter-head__menu"
-      toggle-class="filter-head__button"
+      :toggle-class="`filter-head__button ${!isAllSelected ? 'filter-head__button_active' : ''}`"
       :ref="`dropdown-${keyFilter}`">
     <b-form-group class="filter-head__form-group">
       <b-form-checkbox
@@ -89,6 +89,9 @@ export default {
       this.selectedValues = [];
     },
   },
+  beforeMount() {
+    this.selectedValues = [...new Set(this.$store.state.tasks.taskList.map(item => item[this.keyFilter]))];
+  }
 }
 </script>
 
@@ -106,7 +109,11 @@ export default {
 }
 
 .filter-head .filter-head__button::after {
-  color: black;
+  color: var(--black-color);
+}
+
+.filter-head .filter-head__button_active::after {
+  color: var(--blue-color);
 }
 
 .filter-head__form-group {

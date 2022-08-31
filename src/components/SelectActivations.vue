@@ -135,7 +135,7 @@ export default {
         })
       });
       this.setSelectedItemsForActivation(selectedItems);
-
+      this.dateActivationInputConfig.value = null;
       this.$refs['select-activations-modal'].hide(true);
     }
   },

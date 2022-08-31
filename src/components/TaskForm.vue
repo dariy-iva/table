@@ -125,7 +125,7 @@
           </div>
         </fieldset>
 
-        <fieldset class="task-form__fieldset task-form__fieldset_content_activations">
+        <div class="task-form__fieldset task-form__fieldset_content_activations">
           <p class="task-form__text">Филиалы/регионы и даты активации</p>
           <SelectActivations :selectedRegionsForActivation="selectedRegionsForActivation"
                              :setSelectedItemsForActivation="setSelectedItemsForActivation"/>
@@ -135,14 +135,14 @@
             show-empty bordered fixed hover sticky-header head-variant="light"
             empty-text="Нет выбранных филиалов/регионов для активации">
             <template #cell(delete)="data">
-              <button v-if="getStatusActivation(data.item)" type="button" @click="handleDeleteActivation(data.item)" class="task-form__delete-button">x
+              <button v-if="checkIsNewActivation(data.item)" type="button" @click="handleDeleteActivation(data.item)" class="task-form__delete-button">x
               </button>
             </template>
             <template #cell(region)="data">
               {{ data.item.region }}
             </template>
             <template #cell(date)="data">
-              <input v-if="getStatusActivation(data.item)"
+              <input v-if="checkIsNewActivation(data.item)"
                      type="date" :name="`${data.item.region}-date-activation`"
                      v-model="data.item.date"
                      :min="formConfig.date_start.min"
@@ -151,7 +151,7 @@
               <span v-else>{{ new Date(data.item.date).toLocaleDateString() }}</span>
             </template>
           </b-table>
-        </fieldset>
+        </div>
 
         <div class="task-form_buttons">
           <b-button type="reset" variant="outline-danger" size="sm" class="task-form_button">Закрыть
@@ -275,7 +275,7 @@ export default {
           value: this.isNewTask ? null : this.currentTask.initiator,
           required: true,
         },
-        activations: this.isNewTask ? [] : this.currentTask.activations,
+        activations: this.isNewTask ? [] : this.currentTask.activations.map(item => item),
         comment: {
           name: 'comment',
           label: 'Комментарий',
@@ -362,7 +362,7 @@ export default {
       this.formConfig.activations.unshift(...items);
     },
 
-    getStatusActivation(activation) {
+    checkIsNewActivation(activation) {
       return this.isNewTask
         ? true
         : !this.$store.state.tasks.currentTask.activations

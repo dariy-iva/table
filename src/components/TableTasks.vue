@@ -5,7 +5,7 @@
              empty-filtered-text="Не найдено данных по выбранным параметрам. Попробуйте изменить параметры поиска."
              head-variant="light"
              :fields="fields"
-             :items="filteredTaskList.length  ? filteredTaskList : taskList"
+             :items="filteredTaskList"
              :filter-included-fields="searchOn"
              :filter="searchCell"
              :current-page="currentPage"
@@ -136,6 +136,7 @@ export default {
         {label: 'Дата завершения', key: 'date_finish',},
         {label: 'Редактирование', key: 'edit',},
       ],
+      filters: [],
     }
   },
 
@@ -159,7 +160,17 @@ export default {
 
   methods: {
     filterTasks(key, values) {
-      const filteredTasks = this.taskList.filter(item => values.includes(item[key]));
+      this.filters.map(filter => filter.key).includes(key)
+        ? this.filters.splice(this.filters.findIndex(item => item.key === key), 1, {key: key, values: values})
+        : this.filters.push({key: key, values: values});
+      // const filteredTasks = this.taskList.filter(item => values.includes(item[key]));
+      let filteredTasks = Object.assign(this.$store.state.tasks.taskList);
+
+      this.filters.forEach(filter => {
+        console.log(filteredTasks, this.filters, values)
+        filteredTasks = filteredTasks.filter(item => filter.values.includes(item[filter.key]));
+
+      });
       this.$store.commit('setFilteredTaskList', {taskList: filteredTasks});
     },
 
@@ -206,6 +217,7 @@ export default {
 
   beforeMount() {
     this.$store.dispatch('getTaskList');
+    this.$store.commit('setFilteredTaskList', {taskList: this.$store.state.tasks.taskList});
   }
 }
 </script>
@@ -272,7 +284,9 @@ export default {
 
 .table-tasks__button-edit.btn {
   display: flex;
+  width: 100%;
   align-items: center;
+  justify-content: center;
 }
 
 .table-tasks__button-edit::before {
