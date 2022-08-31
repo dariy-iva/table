@@ -553,6 +553,12 @@ export default {
   grid-area: technology;
 }
 
+input.task-form__field_content_functional-code, input.task-form__field_content_functional-name {
+  min-height: 0;
+  line-height: .5;
+  padding: 0.15rem 0.5rem;
+}
+
 .task-form__text {
   margin: 0;
 }
