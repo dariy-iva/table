@@ -14,6 +14,7 @@ export default {
     addTask(state, payload) {
       payload.task.id = state.taskList.length + 1;
       state.taskList = [payload.task, ...state.taskList];
+      state.filteredTaskList = state.taskList;
     },
     updateTask(state, payload) {
       const updateTaskIndex = state.taskList.findIndex(item => item.id === payload.task.id);

@@ -55,9 +55,7 @@
         </div>
       </template>
       <template #cell(delete)="data">
-        <button type="button" @click="handleDeleteTaskButtonClick(data.item)"
-                class="table-tasks__cell_content_delete-button" title="Удаление записи">x
-        </button>
+        <DeleteItemButton :onDelete="handleDeleteTaskButtonClick" :item="data.item" title="Удаление записи"/>
       </template>
       <template #cell(availability)="data">
         <span v-if="data.item.availability" class="table-tasks__cell_content_check-icon"/>
@@ -105,6 +103,7 @@
 
 <script>
 import FilterHeadTable from "@/components/FilterHeadTable";
+import DeleteItemButton from "@/components/DeleteItemButton";
 
 export default {
   name: "TableTasks",
@@ -114,6 +113,7 @@ export default {
   },
   components: {
     FilterHeadTable,
+    DeleteItemButton,
   },
   data() {
     return {
@@ -244,19 +244,6 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 5px;
-}
-
-.table-tasks__cell_content_delete-button {
-  border: none;
-  background: none;
-  font-weight: 700;
-  color: var(--gray-color);
-  transition: all .3s;
-}
-
-.table-tasks__cell_content_delete-button:hover {
-  color: var(--red-color);
-  transform: scale(1.4);
 }
 
 .table-tasks__cell_content_activation-regions {

@@ -135,8 +135,8 @@
             show-empty bordered fixed hover sticky-header head-variant="light"
             empty-text="Нет выбранных филиалов/регионов для активации">
             <template #cell(delete)="data">
-              <button v-if="checkIsNewActivation(data.item)" type="button" @click="handleDeleteActivation(data.item)" class="task-form__delete-button">x
-              </button>
+              <DeleteItemButton v-if="checkIsNewActivation(data.item)" :onDelete="handleDeleteActivation"
+                                :item="data.item" title="Удаление активации"/>
             </template>
             <template #cell(region)="data">
               {{ data.item.region }}
@@ -168,6 +168,7 @@
 <script>
 import {nowDateInputFormat, nowYear} from "@/utils/constants";
 import SelectActivations from "@/components/SelectActivations";
+import DeleteItemButton from "@/components/DeleteItemButton";
 
 export default {
   name: "TaskForm",
@@ -176,6 +177,7 @@ export default {
   },
   components: {
     SelectActivations,
+    DeleteItemButton,
   },
   data() {
     return {
@@ -379,8 +381,7 @@ export default {
           type: 'addTask',
           task: this.getInputValues,
         });
-      }
-      else {
+      } else {
         this.$store.commit({
           type: 'updateTask',
           task: this.getInputValues,
@@ -561,19 +562,6 @@ input.task-form__field_content_functional-code, input.task-form__field_content_f
 
 .task-form__text {
   margin: 0;
-}
-
-.task-form__delete-button {
-  border: none;
-  background: none;
-  font-weight: 700;
-  color: var(--gray-color);
-  transition: all .3s;
-}
-
-.task-form__delete-button:hover {
-  color: var(--red-color);
-  transform: scale(1.4);
 }
 
 .task-form_buttons {
