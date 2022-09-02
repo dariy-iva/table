@@ -163,13 +163,10 @@ export default {
       this.filters.map(filter => filter.key).includes(key)
         ? this.filters.splice(this.filters.findIndex(item => item.key === key), 1, {key: key, values: values})
         : this.filters.push({key: key, values: values});
-      // const filteredTasks = this.taskList.filter(item => values.includes(item[key]));
+
       let filteredTasks = Object.assign(this.$store.state.tasks.taskList);
-
       this.filters.forEach(filter => {
-        console.log(filteredTasks, this.filters, values)
         filteredTasks = filteredTasks.filter(item => filter.values.includes(item[filter.key]));
-
       });
       this.$store.commit('setFilteredTaskList', {taskList: filteredTasks});
     },
@@ -180,7 +177,7 @@ export default {
 
     getLastActivationDate(task) {
       const activationDateList = task.activations.map(item => new Date(item.date));
-      const lastActivationDate = activationDateList.sort()[activationDateList.length - 1];
+      const lastActivationDate = activationDateList.sort((a, b) => a - b)[activationDateList.length - 1];
       return lastActivationDate.toLocaleDateString();
     },
 
@@ -235,6 +232,7 @@ export default {
   text-align: center;
   font-size: 14px;
   line-height: 1.2;
+  min-height: 300px;
 }
 
 .table-tasks__table .table-tasks__thead {

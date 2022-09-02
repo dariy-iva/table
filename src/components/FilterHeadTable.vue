@@ -118,6 +118,8 @@ export default {
 
 .filter-head__form-group {
   padding: 0 10px;
+  max-height: 150px;
+  overflow-y: scroll;
 }
 
 div.custom-checkbox.filter-head__parent-input {
