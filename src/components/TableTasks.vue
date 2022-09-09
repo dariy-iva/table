@@ -240,10 +240,8 @@ export default {
 }
 
 .table-tasks__head-cell_content_filter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+  position: relative;
+  padding-right: 14px;
 }
 
 .table-tasks__cell_content_activation-regions {

@@ -97,6 +97,14 @@ export default {
 
 <style>
 
+.dropdown.b-dropdown.filter-head {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .filter-head button.btn.filter-head__button {
   display: flex;
   padding: 0;
@@ -138,6 +146,11 @@ div.custom-checkbox.filter-head__parent-input {
   justify-content: end;
   gap: 10px;
   padding: 0 10px;
+}
+
+.filter-head__button {
+  align-items: center;
+  justify-content: end;
 }
 
 </style>

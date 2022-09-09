@@ -28,6 +28,7 @@ export default {
   flex-direction: column;
   min-height: 100vh;
   max-width: 1440px;
+  padding: 0 20px;
   margin: 0 auto;
   gap: 20px;
   --blue-color: rgb(13, 110, 253);

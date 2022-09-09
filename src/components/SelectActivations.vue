@@ -10,7 +10,7 @@
           <div>
             <input type="checkbox" v-model="selectedFilials" :name="filial.name" :value="filial.name"
                    @click="toggleAllRegions">
-            <span v-b-toggle="`collapse-filial-${filial.id}`" class="custom-control-label">{{ filial.name }}</span>
+            <span v-b-toggle="`collapse-filial-${filial.id}`" class="custom-control-label activations__filial">{{ filial.name }}</span>
           </div>
           <b-collapse v-if="filial.regions.length !== 0" :id="`collapse-filial-${filial.id}`" class="mt-2">
             <b-form-checkbox
@@ -161,6 +161,22 @@ export default {
   display: flex;
   gap: 10px;
   justify-content: end;
+}
+
+.activations__filial::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  transition: transform .3s;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid rgba(0, 0, 0, .4);
+}
+
+.activations__filial[aria-expanded="true"]::after {
+  transform: rotate(180deg);
 }
 
 </style>

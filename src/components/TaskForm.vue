@@ -132,7 +132,7 @@
           <b-table
             :items="formConfig.activations"
             :fields="fieldsActivationsTable"
-            show-empty bordered fixed hover sticky-header head-variant="light"
+            show-empty fixed hover sticky-header no-border-collapse
             empty-text="Нет выбранных филиалов/регионов для активации">
             <template #cell(delete)="data">
               <DeleteItemButton v-if="checkIsNewActivation(data.item)" :onDelete="handleDeleteActivation"
