@@ -1,6 +1,8 @@
 # Проект Table (фронтенд). 
 
-[Ссылка на проект на Vercel](https://table-jbzlezyvk-dariy-iva.vercel.app/#/)
+[Ссылка на проект на Vercel](https://table-jbzlezyvk-dariy-iva.vercel.app/#/)  
+
+![Promo video](./public/promo.gif)
 
 
 ## О проекте
