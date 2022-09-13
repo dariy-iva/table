@@ -2,7 +2,7 @@
 
 [Ссылка на проект на Vercel](https://table-jbzlezyvk-dariy-iva.vercel.app/#/)  
 
-![Promo video](./public/promo.webm)
+![Promo video](./public/promo.mp4)
 
 
 ## О проекте
