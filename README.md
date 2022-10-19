@@ -49,6 +49,8 @@
 
 ##### `npm i` – установить зависимости
 
-##### `npm serve` – запуск devServer на http://localhost:3000/
+##### `npm serve` – запуск devServer на http://localhost:8080/
 
-##### `npm predeploy` – production сборка проекта
+##### `npm predeploy` – production сборка проекта  
+
+##### `npm lint` – запуск ESLint
