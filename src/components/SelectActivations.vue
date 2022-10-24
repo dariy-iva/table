@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
 import {nowDateInputFormat} from "@/utils/constants";
 
 export default {
@@ -94,9 +95,8 @@ export default {
     }
   },
   computed: {
-    filialList() {
-      return this.$store.state.support.filialList;
-    },
+    ...mapGetters(['filialList']),
+
     checkValidityForm() {
       return this.selectedRegions.length === 0
         || this.selectedRegions.length === this.selectedRegionsForActivation.length

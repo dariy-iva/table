@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "PaginationTable",
   data() {
@@ -32,6 +34,8 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['taskList', 'filteredTaskList']),
+
     currentPage: {
       get() {
         return this.$store.state.tasks.currentPage;
@@ -49,10 +53,10 @@ export default {
       },
     },
     rowsLength() {
-      return this.$store.state.tasks.taskList.length;
+      return this.taskList.length;
     },
     filteredItemsLength() {
-      return this.$store.state.tasks.filteredTaskList.length;
+      return this.filteredTaskList.length;
     },
   },
 }

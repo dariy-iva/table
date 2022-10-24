@@ -210,6 +210,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
 import {nowDateInputFormat, nowYear} from "@/utils/constants";
 import SelectActivations from "@/components/SelectActivations";
 import DeleteItemButton from "@/components/DeleteItemButton";
@@ -366,6 +367,8 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['initiatorList', 'functionalList']),
+
     getInputValues() {
       return {
         target: this.formConfig.target.value,
@@ -443,10 +446,10 @@ export default {
 
   watch: {
     'formConfig.functional_code.value'(newValue) {
-      this.formConfig.functional_name.value = this.$store.state.support.functionalList.find(item => item.functional_code === newValue).functional_name;
+      this.formConfig.functional_name.value = this.functionalList.find(item => item.functional_code === newValue).functional_name;
     },
     'formConfig.functional_name.value'(newValue) {
-      this.formConfig.functional_code.value = this.$store.state.support.functionalList.find(item => item.functional_name === newValue).functional_code;
+      this.formConfig.functional_code.value = this.functionalList.find(item => item.functional_name === newValue).functional_code;
     },
     'formConfig.status.value'(newValue) {
       this.formConfig.date_finish.value = newValue === 'Завершено'
@@ -458,14 +461,14 @@ export default {
     this.currentTask = this.$store.state.tasks.currentTask;
     this.$store.dispatch('getInitiatorList');
     this.$store.dispatch('getFunctionalList');
-
   },
+
   beforeMount() {
-    this.$store.state.support.initiatorList.forEach(item => {
+    this.initiatorList.forEach(item => {
       this.formConfig.initiator.options.push(item);
     });
 
-    this.$store.state.support.functionalList.forEach(item => {
+    this.functionalList.forEach(item => {
       this.formConfig.functional_code.options.push(item.functional_code);
       this.formConfig.functional_name.options.push(item.functional_name);
     });

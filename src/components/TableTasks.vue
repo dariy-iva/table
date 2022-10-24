@@ -122,6 +122,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
 import FilterHeadTable from "@/components/FilterHeadTable";
 import DeleteItemButton from "@/components/DeleteItemButton";
 
@@ -161,20 +162,10 @@ export default {
   },
 
   computed: {
-    taskList() {
-      return this.$store.state.tasks.taskList;
-    },
+    ...mapGetters(['taskList', 'currentPage', 'perPage', 'filteredTaskList', 'currentTask']),
+
     searchOn() {
       return this.fields.map(item => item.key);
-    },
-    currentPage() {
-      return this.$store.state.tasks.currentPage;
-    },
-    perPage() {
-      return this.$store.state.tasks.perPage;
-    },
-    filteredTaskList() {
-      return this.$store.state.tasks.filteredTaskList;
     },
   },
 
@@ -184,7 +175,7 @@ export default {
         ? this.filters.splice(this.filters.findIndex(item => item.key === key), 1, {key: key, values: values})
         : this.filters.push({key: key, values: values});
 
-      let filteredTasks = Object.assign(this.$store.state.tasks.taskList);
+      let filteredTasks = Object.assign(this.taskList);
       this.filters.forEach(filter => {
         filteredTasks = filteredTasks.filter(item => filter.values.includes(item[filter.key]));
       });
@@ -221,7 +212,7 @@ export default {
     handleDeleteTask() {
       this.$store.commit({
         type: 'deleteTask',
-        task: this.$store.state.tasks.currentTask,
+        task: this.currentTask,
       });
       this.handleCloseDeleteTaskModal();
     },
@@ -234,7 +225,7 @@ export default {
 
   beforeMount() {
     this.$store.dispatch('getTaskList');
-    this.$store.commit('setFilteredTaskList', {taskList: this.$store.state.tasks.taskList});
+    this.$store.commit('setFilteredTaskList', {taskList: this.taskList});
   }
 }
 </script>

@@ -7,6 +7,24 @@ export default {
     perPage: 10,
   }),
 
+  getters: {
+    taskList(state) {
+      return state.taskList;
+    },
+    currentTask(state) {
+      return state.currentTask;
+    },
+    filteredTaskList(state) {
+      return state.filteredTaskList;
+    },
+    currentPage(state) {
+      return state.currentPage;
+    },
+    perPage(state) {
+      return state.perPage;
+    },
+  },
+
   mutations: {
     setTaskList(state, payload) {
       state.taskList = payload.taskList;

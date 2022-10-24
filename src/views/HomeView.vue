@@ -9,19 +9,21 @@
         size="sm"
       />
       <b-button variant="success"
-size="sm"
-class="search-and-add-task__button"
-@click="handleOpenTaskForm(true)">новая запись</b-button>
+                size="sm"
+                class="search-and-add-task__button"
+                @click="handleOpenTaskForm(true)">новая запись
+      </b-button>
     </section>
     <TableTasks :openTaskForm="handleOpenTaskForm"
-:searchCell="searchTableCell"/>
+                :searchCell="searchTableCell"/>
     <PaginationTable/>
     <TaskForm v-if="isOpenTaskForm"
-:isNewTask="isNewTask"/>
+              :isNewTask="isNewTask"/>
   </main>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import TableTasks from "@/components/TableTasks";
 import PaginationTable from "@/components/PaginationTable";
 import TaskForm from "@/components/TaskForm";
@@ -39,11 +41,11 @@ export default {
       searchTableCell: null,
     }
   },
+
   computed: {
-    isOpenTaskForm() {
-      return this.$store.state.isOpenTaskForm;
-    },
+    ...mapGetters(['isOpenTaskForm']),
   },
+
   methods: {
     handleOpenTaskForm(statusTask) {
       this.isNewTask = statusTask;

@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "FilterHeadTable",
   props: {
@@ -58,10 +60,12 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['taskList']),
+
     valueList() {
       return this.keyFilter === 'availability'
         ? [{text: 'Да', value: true}, {text: 'Нет', value: false}]
-        : [...new Set(this.$store.state.tasks.taskList.map(item => item[this.keyFilter]))];
+        : [...new Set(this.taskList.map(item => item[this.keyFilter]))];
     },
   },
 
@@ -90,7 +94,7 @@ export default {
     },
   },
   beforeMount() {
-    this.selectedValues = [...new Set(this.$store.state.tasks.taskList.map(item => item[this.keyFilter]))];
+    this.selectedValues = [...new Set(this.taskList.map(item => item[this.keyFilter]))];
   }
 }
 </script>

@@ -10,6 +10,9 @@ export default new Vuex.Store({
     isOpenTaskForm: false,
   },
   getters: {
+    isOpenTaskForm(state) {
+      return state.isOpenTaskForm;
+    }
   },
   mutations: {
     setIsOpenTaskForm(state, payload) {

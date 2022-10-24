@@ -5,6 +5,18 @@ export default {
     functionalList: [],
   }),
 
+  getters: {
+    filialList(state) {
+      return state.filialList;
+    },
+    initiatorList(state) {
+      return state.initiatorList;
+    },
+    functionalList(state) {
+      return state.functionalList;
+    }
+  },
+
   mutations: {
     setFilialList(state, payload) {
       state.filialList = payload.filialList;
