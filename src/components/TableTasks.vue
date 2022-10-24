@@ -1,6 +1,8 @@
 <template>
   <section class="table-tasks">
-    <b-table bordered hover show-empty
+    <b-table bordered
+             hover
+             show-empty
              empty-text="Нет данных."
              empty-filtered-text="Не найдено данных по выбранным параметрам. Попробуйте изменить параметры поиска."
              head-variant="light"
@@ -21,44 +23,53 @@
       <template #head(target)="data">
         <div class="table-tasks__head-cell_content_filter">
           <span>{{ data.label }}</span>
-          <FilterHeadTable key-filter="target" :onFilter="filterTasks"/>
+          <FilterHeadTable key-filter="target"
+                           :onFilter="filterTasks"/>
         </div>
       </template>
       <template #head(year)="data">
         <div class="table-tasks__head-cell_content_filter">
           <span>{{ data.label }}</span>
-          <FilterHeadTable key-filter="year" :onFilter="filterTasks"/>
+          <FilterHeadTable key-filter="year"
+                           :onFilter="filterTasks"/>
         </div>
       </template>
       <template #head(category)="data">
         <div class="table-tasks__head-cell_content_filter">
           <span>{{ data.label }}</span>
-          <FilterHeadTable key-filter="category" :onFilter="filterTasks"/>
+          <FilterHeadTable key-filter="category"
+                           :onFilter="filterTasks"/>
         </div>
       </template>
       <template #head(technology)="data">
         <div class="table-tasks__head-cell_content_filter">
           <span>{{ data.label }}</span>
-          <FilterHeadTable key-filter="technology" :onFilter="filterTasks"/>
+          <FilterHeadTable key-filter="technology"
+                           :onFilter="filterTasks"/>
         </div>
       </template>
       <template #head(availability)="data">
         <div class="table-tasks__head-cell_content_filter">
           <span>{{ data.label }}</span>
-          <FilterHeadTable key-filter="availability" :onFilter="filterTasks"/>
+          <FilterHeadTable key-filter="availability"
+                           :onFilter="filterTasks"/>
         </div>
       </template>
       <template #head(status)="data">
         <div class="table-tasks__head-cell_content_filter">
           <span>{{ data.label }}</span>
-          <FilterHeadTable key-filter="status" :onFilter="filterTasks"/>
+          <FilterHeadTable key-filter="status"
+                           :onFilter="filterTasks"/>
         </div>
       </template>
       <template #cell(delete)="data">
-        <DeleteItemButton :onDelete="handleDeleteTaskButtonClick" :item="data.item" title="Удаление записи"/>
+        <DeleteItemButton :onDelete="handleDeleteTaskButtonClick"
+                          :item="data.item"
+                          title="Удаление записи"/>
       </template>
       <template #cell(availability)="data">
-        <span v-if="data.item.availability" class="table-tasks__cell_content_check-icon"/>
+        <span v-if="data.item.availability"
+              class="table-tasks__cell_content_check-icon"/>
       </template>
       <template #cell(activation)="data">
         <span
@@ -80,21 +91,30 @@
       </template>
       <template #cell(edit)="data">
         <b-button
-          @click="handleEditTaskButtonClick(data.item)"
           variant="warning"
           size="sm"
-          class="table-tasks__button-edit">редактировать
+          class="table-tasks__button-edit"
+          @click="handleEditTaskButtonClick(data.item)">редактировать
         </b-button>
       </template>
     </b-table>
-    <b-modal id="modal-delete-task" title="Удалить запись?" centered hide-header-close header-bg-variant="primary"
-             no-close-on-backdrop no-close-on-esc>
+    <b-modal id="modal-delete-task"
+             title="Удалить запись?"
+             centered
+             hide-header-close
+             header-bg-variant="primary"
+             no-close-on-backdrop
+             no-close-on-esc>
       <template #default>
         Восстановление удалённой записи будет невозможно.
       </template>
       <template #modal-footer>
-        <b-button @click="handleCloseDeleteTaskModal" variant="outline-danger">Отмена</b-button>
-        <b-button @click="handleDeleteTask" variant="outline-primary">Удалить</b-button>
+        <b-button variant="outline-danger"
+                  @click="handleCloseDeleteTaskModal">Отмена
+        </b-button>
+        <b-button variant="outline-primary"
+                  @click="handleDeleteTask">Удалить
+        </b-button>
       </template>
 
     </b-modal>

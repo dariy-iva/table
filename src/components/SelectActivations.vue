@@ -1,18 +1,34 @@
 <template>
   <div>
-    <b-button variant="primary" size="sm" v-b-modal.select-activations-modal>Выбрать</b-button>
-    <b-modal id="select-activations-modal" ref="select-activations-modal" hide-header hide-footer centered scrollable
-             content-class="" body-class="activations__modal">
+    <b-button v-b-modal.select-activations-modal
+              variant="primary"
+              size="sm">Выбрать
+    </b-button>
+    <b-modal id="select-activations-modal"
+             ref="select-activations-modal"
+             hide-header
+             hide-footer
+             centered
+             scrollable
+             content-class=""
+             body-class="activations__modal">
       <div>
         <h6>Выберите филиалы/регионы:</h6>
 
-        <b-form-group v-for="filial in filialList" :key="filial.name">
+        <b-form-group v-for="filial in filialList"
+                      :key="filial.name">
           <div>
-            <input type="checkbox" v-model="selectedFilials" :name="filial.name" :value="filial.name"
+            <input v-model="selectedFilials"
+                   type="checkbox"
+                   :name="filial.name"
+                   :value="filial.name"
                    @click="toggleAllRegions">
-            <span v-b-toggle="`collapse-filial-${filial.id}`" class="custom-control-label activations__filial">{{ filial.name }}</span>
+            <span v-b-toggle="`collapse-filial-${filial.id}`"
+                  class="custom-control-label activations__filial">{{ filial.name }}</span>
           </div>
-          <b-collapse v-if="filial.regions.length !== 0" :id="`collapse-filial-${filial.id}`" class="mt-2">
+          <b-collapse v-if="filial.regions.length !== 0"
+                      :id="`collapse-filial-${filial.id}`"
+                      class="mt-2">
             <b-form-checkbox
               v-for="region in filial.regions"
               :key="region.name"
@@ -30,17 +46,23 @@
 
       <div>
         <h6>Выберите дату активации:</h6>
-        <b-form-datepicker v-model="dateActivationInputConfig.value" :name="dateActivationInputConfig.name"
-                           :min="dateActivationInputConfig.min" :max="dateActivationInputConfig.max"
-                           :placeholder="dateActivationInputConfig.label" required size="sm"/>
+        <b-form-datepicker v-model="dateActivationInputConfig.value"
+                           :name="dateActivationInputConfig.name"
+                           :min="dateActivationInputConfig.min"
+                           :max="dateActivationInputConfig.max"
+                           :placeholder="dateActivationInputConfig.label"
+                           required
+                           size="sm"/>
       </div>
 
       <div class="activations__buttons">
-        <b-button variant="outline-danger" size="sm"
+        <b-button variant="outline-danger"
+                  size="sm"
                   :disabled="checkValidityForm"
                   @click="clearActivations">Очистить
         </b-button>
-        <b-button variant="primary" size="sm"
+        <b-button variant="primary"
+                  size="sm"
                   :disabled="checkValidityForm"
                   @click="setSelectedRegions">Применить
         </b-button>

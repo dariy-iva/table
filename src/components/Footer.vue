@@ -4,9 +4,14 @@
     <div class="contacts">
       <p class="contacts__title">Контакты</p>
       <ul class="contacts__list">
-        <li class="contacts__item">Telegram: <a href="https://t.me/DariyIva" target="_blank" class="contacts__link">DariyIva</a></li>
-        <li class="contacts__item">GitHub: <a href="https://github.com/dariy-iva" target="_blank" class="contacts__link">dariy-iva</a></li>
-        <li class="contacts__item">Почта: <a href="mailto:dashann@mail.ru" class="contacts__link">dashann@mail.ru</a></li>
+        <li class="contacts__item">Telegram: <a href="https://t.me/DariyIva"
+                                                target="_blank"
+                                                class="contacts__link">DariyIva</a></li>
+        <li class="contacts__item">GitHub: <a href="https://github.com/dariy-iva"
+                                              target="_blank"
+                                              class="contacts__link">dariy-iva</a></li>
+        <li class="contacts__item">Почта: <a href="mailto:dashann@mail.ru"
+                                             class="contacts__link">dashann@mail.ru</a></li>
         <li class="contacts__item">Телефон: <span class="contacts__link">+7 (911) 027-14-37</span></li>
       </ul>
     </div>

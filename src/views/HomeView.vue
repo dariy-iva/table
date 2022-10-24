@@ -2,17 +2,22 @@
   <main class="home">
     <section class="search-and-add-task">
       <b-form-input
-        class="search-and-add-task__search"
         v-model="searchTableCell"
+        class="search-and-add-task__search"
         type="search"
         placeholder="Поиск записей"
         size="sm"
       />
-      <b-button variant="success" size="sm" @click="handleOpenTaskForm(true)" class="search-and-add-task__button">новая запись</b-button>
+      <b-button variant="success"
+size="sm"
+class="search-and-add-task__button"
+@click="handleOpenTaskForm(true)">новая запись</b-button>
     </section>
-    <TableTasks :openTaskForm="handleOpenTaskForm" :searchCell="searchTableCell"/>
+    <TableTasks :openTaskForm="handleOpenTaskForm"
+:searchCell="searchTableCell"/>
     <PaginationTable/>
-    <TaskForm v-if="isOpenTaskForm" :isNewTask="isNewTask"/>
+    <TaskForm v-if="isOpenTaskForm"
+:isNewTask="isNewTask"/>
   </main>
 </template>
 

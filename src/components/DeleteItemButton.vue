@@ -1,6 +1,8 @@
 <template>
-  <button type="button" @click="onDelete(item)"
-          class="delete-button" :title="title">x
+  <button type="button"
+          class="delete-button"
+          :title="title"
+          @click="onDelete(item)">x
   </button>
 </template>
 

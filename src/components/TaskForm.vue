@@ -5,46 +5,66 @@
       <h3 :class="`task-form__title ${isNewTask ? 'task-form__title_content_add' : 'task-form__title_content_edit'}`">
         {{ isNewTask ? 'Новая запись' : 'Редактирование записи' }}</h3>
 
-      <form name="task-form" @submit.prevent="handleSubmitTask" @reset.prevent="handleResetForm"
-            class="task-form__form">
+      <form name="task-form"
+            class="task-form__form"
+            @submit.prevent="handleSubmitTask"
+            @reset.prevent="handleResetForm">
 
         <fieldset class="task-form__fieldset task-form__fieldset_content_general">
-          <b-form-select v-model="formConfig.target.value" :options="formConfig.target.options"
+          <b-form-select v-model="formConfig.target.value"
+                         :options="formConfig.target.options"
                          :required="formConfig.target.required"
-                         :name="formConfig.target.name" size="sm"
+                         :name="formConfig.target.name"
+                         size="sm"
                          class="task-form__field task-form__field_content_target"/>
-          <b-form-select v-model="formConfig.category.value" :options="formConfig.category.options"
-                         :required="formConfig.category.required" :name="formConfig.category.name" size="sm"
+          <b-form-select v-model="formConfig.category.value"
+                         :options="formConfig.category.options"
+                         :required="formConfig.category.required"
+                         :name="formConfig.category.name"
+                         size="sm"
                          class="task-form__field task-form__field_content_category"/>
-          <b-form-select v-model="formConfig.year.value" :options="formConfig.year.options"
-                         :required="formConfig.year.required" :name="formConfig.year.name" size="sm"
+          <b-form-select v-model="formConfig.year.value"
+                         :options="formConfig.year.options"
+                         :required="formConfig.year.required"
+                         :name="formConfig.year.name"
+                         size="sm"
                          class="task-form__field task-form__field_content_year"/>
-          <b-form-select v-model="formConfig.technology.value" :options="formConfig.technology.options"
-                         :required="formConfig.technology.required" :name="formConfig.technology.name" size="sm"
+          <b-form-select v-model="formConfig.technology.value"
+                         :options="formConfig.technology.options"
+                         :required="formConfig.technology.required"
+                         :name="formConfig.technology.name"
+                         size="sm"
                          class="task-form__field task-form__field_content_technology"/>
         </fieldset>
 
         <fieldset class="task-form__fieldset task-form__fieldset_content_functional">
-          <b-form-checkbox v-model="formConfig.availability.checked" :name="formConfig.availability.name" switch>
+          <b-form-checkbox v-model="formConfig.availability.checked"
+                           :name="formConfig.availability.name"
+                           switch>
             {{ formConfig.availability.label }}
           </b-form-checkbox>
-          <b-form-select v-if="formConfig.availability.checked" v-model="formConfig.functional_code.value"
+          <b-form-select v-if="formConfig.availability.checked"
+                         v-model="formConfig.functional_code.value"
                          :options="formConfig.functional_code.options"
-                         :required="formConfig.functional_code.required" :name="formConfig.functional_code.name"
+                         :required="formConfig.functional_code.required"
+                         :name="formConfig.functional_code.name"
                          size="sm"
                          class="task-form__field task-form__field_content_functional-code"/>
-          <b-form-select v-if="formConfig.availability.checked" v-model="formConfig.functional_name.value"
+          <b-form-select v-if="formConfig.availability.checked"
+                         v-model="formConfig.functional_name.value"
                          :options="formConfig.functional_name.options"
-                         :required="formConfig.functional_name.required" :name="formConfig.functional_name.name"
+                         :required="formConfig.functional_name.required"
+                         :name="formConfig.functional_name.name"
                          size="sm"
                          class="task-form__field task-form__field_content_functional-name"/>
           <div
-            v-if="!formConfig.availability.checked" class="task-form__field-container">
+            v-if="!formConfig.availability.checked"
+            class="task-form__field-container">
             <label :for="formConfig.functional_code.name">{{ formConfig.functional_code.label + ':' }}</label>
             <b-form-input
               :id="formConfig.functional_code.name"
-              :name="formConfig.functional_code.name"
               v-model="formConfig.functional_code.value"
+              :name="formConfig.functional_code.name"
               :required="formConfig.functional_code.required"
               min="2"
               max="10"
@@ -53,12 +73,13 @@
             />
           </div>
           <div
-            v-if="!formConfig.availability.checked" class="task-form__field-container">
+            v-if="!formConfig.availability.checked"
+            class="task-form__field-container">
             <label :for="formConfig.functional_name.name">{{ formConfig.functional_name.label + ':' }}</label>
             <b-form-input
               :id="formConfig.functional_name.name"
-              :name="formConfig.functional_name.name"
               v-model="formConfig.functional_name.value"
+              :name="formConfig.functional_name.name"
               :required="formConfig.functional_name.required"
               min="5"
               max="20"
@@ -69,19 +90,25 @@
         </fieldset>
 
         <fieldset class="task-form__fieldset task-form__fieldset_content_additions">
-          <b-form-select v-model="formConfig.activity.value" :options="formConfig.activity.options"
-                         :required="formConfig.activity.required" :name="formConfig.activity.name" size="sm"
+          <b-form-select v-model="formConfig.activity.value"
+                         :options="formConfig.activity.options"
+                         :required="formConfig.activity.required"
+                         :name="formConfig.activity.name"
+                         size="sm"
                          class="task-form__field task-form__field_content_activity"/>
-          <b-form-select v-model="formConfig.initiator.value" :options="formConfig.initiator.options"
-                         :required="formConfig.initiator.required" :disabled="!isNewTask"
-                         :name="formConfig.initiator.name" size="sm"
+          <b-form-select v-model="formConfig.initiator.value"
+                         :options="formConfig.initiator.options"
+                         :required="formConfig.initiator.required"
+                         :disabled="!isNewTask"
+                         :name="formConfig.initiator.name"
+                         size="sm"
                          class="task-form__field task-form__field_content_initiator"/>
           <div class="task-form__field-container">
             <label :for="formConfig.comment.name">{{ formConfig.comment.label + ':' }}</label>
             <b-form-textarea
               :id="formConfig.comment.name"
-              :name="formConfig.comment.name"
               v-model="formConfig.comment.value"
+              :name="formConfig.comment.name"
               :required="formConfig.comment.required"
               rows="3"
               max-rows="3"
@@ -97,8 +124,8 @@
             <label :for="formConfig.date_start.name">{{ formConfig.date_start.label + ':' }}</label>
             <b-form-datepicker
               :id="formConfig.date_start.name"
-              :name="formConfig.date_start.name"
               v-model="formConfig.date_start.value"
+              :name="formConfig.date_start.name"
               :required="formConfig.date_start.required"
               :min="formConfig.date_start.min"
               :max="formConfig.date_start.max"
@@ -107,16 +134,19 @@
               class="task-form__field task-form__field_content_date-start"
             />
           </div>
-          <b-form-select v-model="formConfig.status.value" :options="formConfig.status.options"
+          <b-form-select v-model="formConfig.status.value"
+                         :options="formConfig.status.options"
                          :disabled="!isNewTask && $store.state.tasks.currentTask.status === 'Завершено'"
-                         :required="formConfig.status.required" :name="formConfig.status.name" size="sm"
+                         :required="formConfig.status.required"
+                         :name="formConfig.status.name"
+                         size="sm"
                          class="task-form__field task-form__field_content_status"/>
           <div class="task-form__field-container">
             <label :for="formConfig.date_finish.name">{{ formConfig.date_finish.label + ':' }}</label>
             <b-form-datepicker
               :id="formConfig.date_finish.name"
-              :name="formConfig.date_finish.name"
               v-model="formConfig.date_finish.value"
+              :name="formConfig.date_finish.name"
               :required="formConfig.date_finish.required"
               disabled
               size="sm"
@@ -132,21 +162,29 @@
           <b-table
             :items="formConfig.activations"
             :fields="fieldsActivationsTable"
-            show-empty fixed hover sticky-header no-border-collapse
+            show-empty
+            fixed
+            hover
+            sticky-header
+            no-border-collapse
             empty-text="Нет выбранных филиалов/регионов для активации">
             <template #cell(delete)="data">
-              <DeleteItemButton v-if="checkIsNewActivation(data.item)" :onDelete="handleDeleteActivation"
-                                :item="data.item" title="Удаление активации"/>
+              <DeleteItemButton v-if="checkIsNewActivation(data.item)"
+                                :onDelete="handleDeleteActivation"
+                                :item="data.item"
+                                title="Удаление активации"/>
             </template>
             <template #cell(region)="data">
               {{ data.item.region }}
             </template>
             <template #cell(date)="data">
               <input v-if="checkIsNewActivation(data.item)"
-                     type="date" :name="`${data.item.region}-date-activation`"
                      v-model="data.item.date"
+                     type="date"
+                     :name="`${data.item.region}-date-activation`"
                      :min="formConfig.date_start.min"
-                     :max="formConfig.date_start.max" placeholder="Дата активации"
+                     :max="formConfig.date_start.max"
+                     placeholder="Дата активации"
               >
               <span v-else>{{ new Date(data.item.date).toLocaleDateString() }}</span>
             </template>
@@ -154,10 +192,16 @@
         </div>
 
         <div class="task-form_buttons">
-          <b-button type="reset" variant="outline-danger" size="sm" class="task-form_button">Закрыть
+          <b-button type="reset"
+                    variant="outline-danger"
+                    size="sm"
+                    class="task-form_button">Закрыть
           </b-button>
-          <b-button type="submit" variant="primary" size="sm"
-                    :disabled="checkValidForm" class="task-form_button">Сохранить
+          <b-button type="submit"
+                    variant="primary"
+                    size="sm"
+                    :disabled="checkValidForm"
+                    class="task-form_button">Сохранить
           </b-button>
         </div>
       </form>

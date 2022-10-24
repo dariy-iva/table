@@ -1,42 +1,42 @@
 <template>
   <b-dropdown
-      variant="dark"
-      size="sm"
-      class="filter-head"
-      menu-class="filter-head__menu"
-      :toggle-class="`filter-head__button ${!isAllSelected ? 'filter-head__button_active' : ''}`"
-      :ref="`dropdown-${keyFilter}`">
+    :ref="`dropdown-${keyFilter}`"
+    variant="dark"
+    size="sm"
+    class="filter-head"
+    menu-class="filter-head__menu"
+    :toggle-class="`filter-head__button ${!isAllSelected ? 'filter-head__button_active' : ''}`">
     <b-form-group class="filter-head__form-group">
       <b-form-checkbox
-          v-model="isAllSelected"
-          @change="toggleAllValues"
-          size="sm"
-          class="filter-head__parent-input"
+        v-model="isAllSelected"
+        size="sm"
+        class="filter-head__parent-input"
+        @change="toggleAllValues"
       >Выбрать все
       </b-form-checkbox>
       <b-form-checkbox-group
-          v-model="selectedValues"
-          :options="valueList"
-          size="sm"
-          stacked
-          class="filter-head__child-inputs"/>
+        v-model="selectedValues"
+        :options="valueList"
+        size="sm"
+        stacked
+        class="filter-head__child-inputs"/>
     </b-form-group>
 
     <b-dropdown-divider/>
 
     <div class="filter-head__buttons">
       <b-button
-          @click="clearSelectedValues"
-          :disabled="selectedValues.length === 0"
-          variant="outline-danger"
-          size="sm"
+        :disabled="selectedValues.length === 0"
+        variant="outline-danger"
+        size="sm"
+        @click="clearSelectedValues"
       >Очистить
       </b-button>
       <b-button
-          @click="filterItems"
-          :disabled="selectedValues.length === 0"
-          variant="primary"
-          size="sm"
+        :disabled="selectedValues.length === 0"
+        variant="primary"
+        size="sm"
+        @click="filterItems"
       >Применить
       </b-button>
     </div>
@@ -60,16 +60,16 @@ export default {
   computed: {
     valueList() {
       return this.keyFilter === 'availability'
-          ? [{text: 'Да', value: true}, {text: 'Нет', value: false}]
-          : [...new Set(this.$store.state.tasks.taskList.map(item => item[this.keyFilter]))];
+        ? [{text: 'Да', value: true}, {text: 'Нет', value: false}]
+        : [...new Set(this.$store.state.tasks.taskList.map(item => item[this.keyFilter]))];
     },
   },
 
   watch: {
     selectedValues(newValue) {
       this.isAllSelected = newValue.length === 0
-          ? false
-          : newValue.length === this.valueList.length;
+        ? false
+        : newValue.length === this.valueList.length;
     },
   },
 
@@ -80,10 +80,10 @@ export default {
     },
     toggleAllValues(checked) {
       this.selectedValues = !checked
-          ? []
-          : this.keyFilter === 'availability'
-              ? this.valueList.map(item => item.value)
-              : this.valueList.slice();
+        ? []
+        : this.keyFilter === 'availability'
+          ? this.valueList.map(item => item.value)
+          : this.valueList.slice();
     },
     clearSelectedValues() {
       this.selectedValues = [];
